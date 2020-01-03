@@ -10,14 +10,24 @@ const styles ={
     }
 }
 
-export default ({exercises, category, onSelect, exercise }) => 
+export default ({
+    exercises,
+    category, 
+    onSelect, 
+    exercise: {
+        id, 
+        title = 'Welcome!', 
+        description = 'Please select an exercise from the list on the left.',
+
+    } 
+}) => 
     <Grid container>
         <Grid item sm>
             <Paper style={styles.Paper}>
                 {exercises.map(([group, exercises]) => 
                     !category || category === group
                         ? 
-                        <Fragment>
+                        <Fragment key={group}>
                             <Typography
                                 variant="h5"
                                 style={{textTransform: 'capitalize'}}
@@ -26,10 +36,13 @@ export default ({exercises, category, onSelect, exercise }) =>
                             </Typography>
                             <List component="ul" aria-label="secondary mailbox folders">
                                 {exercises.map(({ id, title }) => 
-                                    <ListItem button>
+                                    <ListItem 
+                                        key={id}
+                                        button 
+                                        onClick={() => onSelect(id)}
+                                    >
                                             <ListItemText 
                                                 primary={title} 
-                                                onClick={() => onSelect(id)}
                                             />
                                     </ListItem>    
                                 )}
@@ -44,13 +57,13 @@ export default ({exercises, category, onSelect, exercise }) =>
                 <Typography
                     variant="h4"
                 >
-                    Welcome!
+                    {title}
                 </Typography>
                 <Typography
                     variant="subheading"
                     style={{marginTop: 20}}
                 >
-                    Please select an exercise from the list on the left.
+                    {description}
                 </Typography>
             </Paper>
         </Grid>
