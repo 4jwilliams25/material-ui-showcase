@@ -7,9 +7,11 @@ import {
     ListItem, 
     ListItemText, 
     ListItemSecondaryAction,
-    IconButton 
+    IconButton
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Form from './Form';
 
 const styles ={
     Paper: { padding: 20,
@@ -21,16 +23,21 @@ const styles ={
 }
 
 export default ({
+    muscles,
     exercises,
     category, 
-    onSelect, 
+    editMode,
+    onSelect,
+    exercise, 
     exercise: {
         id, 
         title = 'Welcome!', 
         description = 'Please select an exercise from the list on the left.',
 
     }, 
-    onDelete
+    onDelete,
+    onSelectEdit,
+    onEdit
 }) => 
     <Grid container>
         <Grid item sm>
@@ -55,6 +62,9 @@ export default ({
                                             <ListItemText 
                                                 primary={title} 
                                             />
+                                            <IconButton onClick={() => onSelectEdit(id)}>
+                                                    <EditIcon />
+                                            </IconButton>
                                             <ListItemSecondaryAction>
                                                 <IconButton onClick={() => onDelete(id)}>
                                                     <DeleteIcon />
@@ -70,17 +80,26 @@ export default ({
         </Grid>
         <Grid item sm>
             <Paper style={styles.Paper}>
-                <Typography
+                {editMode 
+                ? <Form
+                    exercise={exercise}
+                    muscles={muscles}
+                    onSubmit={onEdit}
+                />
+                : <Fragment>
+                    <Typography
                     variant="h4"
-                >
+                    >
                     {title}
-                </Typography>
-                <Typography
-                    variant="subheading"
-                    style={{marginTop: 20}}
-                >
-                    {description}
-                </Typography>
+                    </Typography>
+                    <Typography
+                        variant="subheading"
+                        style={{marginTop: 20}}
+                    >
+                        {description}
+                    </Typography>
+                </Fragment>}
+                
             </Paper>
         </Grid>
     </Grid>
