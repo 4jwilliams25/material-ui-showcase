@@ -62,10 +62,10 @@ export default ({
                                             <ListItemText 
                                                 primary={title} 
                                             />
-                                            <IconButton onClick={() => onSelectEdit(id)}>
-                                                    <EditIcon />
-                                            </IconButton>
                                             <ListItemSecondaryAction>
+                                                <IconButton onClick={() => onSelectEdit(id)}>
+                                                        <EditIcon />
+                                                </IconButton>
                                                 <IconButton onClick={() => onDelete(id)}>
                                                     <DeleteIcon />
                                                 </IconButton>
@@ -84,7 +84,7 @@ export default ({
                 ? <Form
                     exercise={exercise}
                     muscles={muscles}
-                    onSubmit={onEdit}
+                    onCreate={onEdit}
                 />
                 : <Fragment>
                     <Typography

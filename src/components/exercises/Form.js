@@ -20,6 +20,13 @@ export default withStyles(styles)(class extends Component {
         }
     }
 
+    // Tells the component to check for new props everytime it re-renders
+    componentWillReceiveProps({ exercise }) {
+        this.setState({
+            ...exercise
+        })
+    }
+
     handleChange = name => ({ target: { value } }) =>
         this.setState({
             [name]: value
@@ -27,27 +34,18 @@ export default withStyles(styles)(class extends Component {
     
       handleSubmit = () => {
     
-        const { exercise } = this.state
-    
-        this.props.onCreate({
-          ...exercise,
-          id: exercise.title.toLocaleLowerCase().replace('/  /g, '-'')
+        this.props.onSubmit({
+            id: this.state.title.toLocaleLowerCase().replace('/  /g, '-''),
+            ...this.state
         })
     
-        this.setState({
-          open: false,
-          exercise: {
-            title: '',
-            description: '',
-            muscles: ''
-          }
-        })
+        this.setState(this.getInitState)
     
       }
 
     render() {
         const { title, description, muscles } = this.state,
-            { classes, muscles: categories } = this.props
+            { exercise, classes, muscles: categories } = this.props
 
         return(
             <form>
@@ -87,7 +85,7 @@ export default withStyles(styles)(class extends Component {
                     variant="contained"
                     onClick={this.handleSubmit}
                 >
-                Create
+                    {exercise ? 'Edit' : 'Create'}
                 </Button>
           </form>
         )
