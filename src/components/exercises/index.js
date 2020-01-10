@@ -14,11 +14,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import Form from './Form';
 
 const styles ={
-    Paper: { padding: 20,
-             marginTop: 10, 
-             marginBottom: 10, 
-             height: 500, 
-             overflowY: 'auto'  
+    Paper: { 
+        padding: 20,
+        marginTop: 10, 
+        marginBottom: 10, 
+        height: 500, 
+        overflowY: 'auto'  
     }
 }
 
@@ -84,7 +85,7 @@ export default ({
                 ? <Form
                     exercise={exercise}
                     muscles={muscles}
-                    onCreate={onEdit}
+                    onSubmit={onEdit}
                 />
                 : <Fragment>
                     <Typography

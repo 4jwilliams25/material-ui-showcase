@@ -21,10 +21,8 @@ export default withStyles(styles)(class extends Component {
     }
 
     // Tells the component to check for new props everytime it re-renders
-    componentWillReceiveProps({ exercise }) {
-        this.setState({
-            ...exercise
-        })
+    static getDerivedStateFromProps({ exercise }) {
+        return exercise || null
     }
 
     handleChange = name => ({ target: { value } }) =>
