@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Tabs } from '@material-ui/core'
+import { Tabs, AppBar } from '@material-ui/core'
 import Tab from '@material-ui/core/Tab'
 
 export default ({ muscles, category, onSelect }) =>  {
@@ -12,19 +12,20 @@ export default ({ muscles, category, onSelect }) =>  {
         }
 
     return (
-        <Paper>
+        <AppBar position='static'>
             <Tabs
             // Value picks the active tab; 0 indexed
             value={index}
             onChange={onIndexSelect}
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor="secondary"
+            textColor="secondary"
             centered
+            scrollButtons="auto"
             >   
                 <Tab label="All" />
                 {muscles.map(group => 
                     <Tab key={group} label={group} />
                 )}
             </Tabs>
-        </Paper>
+        </AppBar>
     )}
