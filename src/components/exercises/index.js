@@ -12,22 +12,41 @@ import {
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { withContext } from '../../context';
 import Form from './Form';
 
 const styles = theme => ({
-    Paper: { 
+    paper: { 
         padding: 20,
         marginTop: 5,  
-        height: 500, 
+        height: 'calc(100% - 10px)', 
         overflowY: 'auto'  
+    },
+    '@global': {
+        'html, body, #root': {
+            height: '100%'
+        }
+    },
+    container: {
+        [theme.breakpoints.up('sm')]: {
+            height: 'calc(100% - 64px - 48px)'
+        },
+        [theme.breakpoints.down('xs')]: {
+            height: 'calc(100% - 56px - 48px)'
+        },
+    },
+    item: {
+        [theme.breakpoints.down('xs')]: {
+            height: '50%'
+        }
     }
 })
 
-export default withStyles(styles)(
+const Exercises = 
     ({
     classes,
     muscles,
-    exercises,
+    exercisesByMuscles,
     category, 
     editMode,
     onSelect,
@@ -42,10 +61,11 @@ export default withStyles(styles)(
     onSelectEdit,
     onEdit
 }) => 
-    <Grid container>
+(
+    <Grid container className={classes.container}>
         <Grid item xs={12} sm={6}>
-            <Paper className={classes.Paper}>
-                {exercises.map(([group, exercises]) => 
+            <Paper className={classes.paper}>
+                {exercisesByMuscles.map(([group, exercises]) => 
                     !category || category === group
                         ? 
                         <Fragment key={group}>
@@ -83,7 +103,7 @@ export default withStyles(styles)(
             </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-            <Paper className={classes.Paper}>
+            <Paper className={classes.paper}>
                 <Typography
                     variant="h4"
                     color='secondary'
@@ -109,3 +129,5 @@ export default withStyles(styles)(
         </Grid>
     </Grid>
 )
+
+export default withContext(withStyles(styles)(Exercises))

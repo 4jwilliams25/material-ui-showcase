@@ -1,31 +1,41 @@
-import React from 'react'
-import { Tabs, AppBar } from '@material-ui/core'
-import Tab from '@material-ui/core/Tab'
+import React, { Component } from 'react'
+import { withWidth, Tabs, AppBar, Tab } from '@material-ui/core'
+import { withContext } from '../../context'
 
-export default ({ muscles, category, onSelect }) =>  {
-    const index = category
-        ? muscles.findIndex(group => group === category) + 1
-        : 0
+class Footer extends Component {
+    onIndexSelect = (e, index) => {
+        const { onCategorySelect, muscles } = this.props 
+        onCategorySelect(index === 0 ? '' : muscles[index - 1])
+    }
 
-    const onIndexSelect = (e, index) => {
-        onSelect(index === 0 ? '' : muscles[index - 1])
-        }
+    getIndex = () => {
+        const { category, muscles } = this.props
+         return category
+            ? muscles.findIndex(group => group === category) + 1
+            : 0
+    }
 
-    return (
-        <AppBar position='static'>
-            <Tabs
-            // Value picks the active tab; 0 indexed
-            value={index}
-            onChange={onIndexSelect}
-            indicatorColor="secondary"
-            textColor="secondary"
-            centered
-            scrollButtons="auto"
-            >   
-                <Tab label="All" />
-                {muscles.map(group => 
-                    <Tab key={group} label={group} />
-                )}
-            </Tabs>
-        </AppBar>
-    )}
+    render() {
+        const { width, muscles } = this.props
+        return (
+            <AppBar position='static'>
+                <Tabs
+                // Value picks the active tab; 0 indexed
+                value={this.getIndex}
+                onChange={this.onIndexSelect}
+                indicatorColor="secondary"
+                textColor="secondary"
+                centered
+                scrollButtons="auto"
+                >   
+                    <Tab label="All" />
+                    {muscles.map(group => 
+                        <Tab key={group} label={group} />
+                    )}
+                </Tabs>
+            </AppBar>
+            )
+    }
+}
+
+export default withContext(withWidth()(Footer))

@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header, Footer } from './components/layouts'
 import Exercises from './components/exercises'
 import { muscles, exercises } from './store'
+import { Provider } from './context'
 
 
 export default class App extends React.Component {
@@ -17,8 +18,6 @@ export default class App extends React.Component {
       ...exercises,
       [category]: []
     }), {})
-
-    console.log(muscles, initExercises)
 
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
@@ -72,35 +71,28 @@ export default class App extends React.Component {
     exercise
     }))
 
+    getContext = () => ({
+      muscles,
+      ...this.state,
+      exercisesByMuscles: this.getExercisesByMuscles(),
+      onCategorySelect: this.handleCategorySelect,
+      onCreate: this.handleExerciseCreate,
+      onEdit: this.handleExerciseEdit,
+      onSelectEdit: this.handleExerciseSelectEdit,
+      onDelete: this.handleExerciseDelete,
+      onSelect: this.handleExerciseSelect
+    })
+
   render() {
-    const exercises = this.getExercisesByMuscles(),
-      { category, exercise, editMode } = this.state
     return(
-      <Fragment>
-        <CssBaseline />
-        <Header
-          muscles={muscles}
-          onExerciseCreate={this.handleExerciseCreate}
-        />
+      <Provider value={this.getContext()}>
+          <CssBaseline />
+          <Header />
 
-        <Exercises 
-          exercise={exercise}
-          exercises={exercises}
-          category={category}
-          editMode={editMode}
-          muscles={muscles}
-          onSelect={this.handleExerciseSelect}
-          onDelete={this.handleExerciseDelete}
-          onEdit={this.handleExerciseEdit}
-          onSelectEdit={this.handleExerciseSelectEdit}
-        />
+          <Exercises />
 
-        <Footer 
-          category={category}
-          muscles={muscles}
-          onSelect={this.handleCategorySelect}
-        />
-      </Fragment>
+          <Footer />
+      </Provider>
     )
   }
 }

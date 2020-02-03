@@ -3,20 +3,21 @@ import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import CreateDialog from '../exercises/Dialog';
 
 const styles = {
-  x: {
-    flex: 1
+  flex: {
+    flex: 1,
+    marginLeft: 20,
   }
 }
 
-export default withStyles(styles)(({ classes, muscles, onExerciseCreate }) => 
+export default withStyles(styles)(({ classes }) => 
     <AppBar position="static">
         <Toolbar>
           {/* The flex of 1 pushes everything else to the far left */}
-          <Typography variant="headline" color="inherit" className={classes.x}>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
             Exercise Database
           </Typography>
 
-          <CreateDialog muscles={muscles} onCreate={onExerciseCreate} />
+          <CreateDialog />
         </Toolbar>
     </AppBar>
 )
